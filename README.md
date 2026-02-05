@@ -4,7 +4,7 @@ A very minimal Dynamic DNS tool to routinely update Cloudflare DNS records with 
 
 ## Setup
 
-To see how to setup this tool, see the [setup guide](./SETUP_GUIDE.md).
+See the [setup guide](./SETUP_GUIDE.md).
 
 ## Details
 
