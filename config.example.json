@@ -1,0 +1,4 @@
+{
+    "$schema": ".github/config-schema.json",
+    "dnsRecords": []
+}

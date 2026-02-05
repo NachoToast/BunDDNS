@@ -1,0 +1,10 @@
+# https://docs.docker.com/compose/compose-file/
+name: bun-ddns
+
+services:
+    app:
+        container_name: bun-ddns
+        build: .
+        env_file: .env
+volumes:
+    data: {}

@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "dnsRecords": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "zoneId": {
+                        "type": "string"
+                    },
+                    "recordId": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "proxied": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false,
+                "required": [
+                    "zoneId",
+                    "recordId",
+                    "name",
+                    "proxied"
+                ]
+            }
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "dnsRecords"
+    ]
+}

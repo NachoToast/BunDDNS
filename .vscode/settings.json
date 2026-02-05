@@ -1,0 +1,19 @@
+{
+    // TypeScript
+    "[typescript]": {
+        "editor.formatOnSave": true,
+        "editor.rulers": [100],
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.codeActionsOnSave": {
+            "source.removeUnusedImports": "explicit",
+            "source.organizeImports": "explicit"
+        },
+    },
+    "typescript.format.enable": true,
+    "typescript.format.semicolons": "insert",
+    // JSON
+    "[json]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+}

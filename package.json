@@ -1,0 +1,19 @@
+{
+    "private": true,
+    "module": "src/index.ts",
+    "type": "module",
+    "scripts": {
+        "start": "bun .",
+        "dev": "bun --watch .",
+        "get-record-id": "bun src/scripts/getRecordId.ts"
+    },
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "dependencies": {
+        "node-cron": "^4.2.1"
+    }
+}
