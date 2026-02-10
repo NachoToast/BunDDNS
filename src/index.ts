@@ -1,5 +1,5 @@
 import { schedule } from 'node-cron';
-import { dnsRecords } from '../config.json';
+import { dnsRecords as rawDnsRecords } from '../config.json';
 import { getCloudflareToken } from "./functions/getCloudflareToken";
 import { getLatestIp } from "./functions/getLatestIp";
 import { getRecordContent } from "./functions/getRecordContent";
@@ -8,8 +8,17 @@ import { setRecordContent } from './functions/setRecordContent';
 import { Color } from './types/Color';
 import type { InputDnsRecord } from './types/DnsRecord';
 
+const dnsRecords: InputDnsRecord[] = rawDnsRecords;
 
-const cloudflareToken = getCloudflareToken();
+const defaultToken = getCloudflareToken();
+
+for (const record of dnsRecords) {
+    if (record.token !== undefined) {
+        record.token = getCloudflareToken(record.token);
+    } else {
+        record.token = defaultToken;
+    }
+}
 
 let lastLoggedSameIp = false;
 let isDoingTheThing = false;
@@ -17,10 +26,7 @@ let isDoingTheThing = false;
 const s = dnsRecords.length === 1 ? "" : "s";
 
 async function main(): Promise<void> {
-    const [oldIp, newIp] = await Promise.all([
-        getRecordContent(dnsRecords[0], cloudflareToken),
-        getLatestIp(),
-    ]);
+    const [oldIp, newIp] = await Promise.all([getRecordContent(dnsRecords[0]), getLatestIp()]);
 
     if (oldIp === newIp) {
         if (!lastLoggedSameIp) {
@@ -38,7 +44,7 @@ async function main(): Promise<void> {
 
     async function loggedUpdate(record: InputDnsRecord): Promise<void> {
         try {
-            await setRecordContent(record, cloudflareToken, newIp, comment);
+            await setRecordContent(record, newIp, comment);
 
             console.log(`[${makeTimestamp()}] Updated ${Color.Green}${record.name}${Color.Reset} successfully`);
         } catch (error) {

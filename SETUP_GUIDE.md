@@ -7,6 +7,7 @@
 - [2. Cloudflare Token](#2-cloudflare-token)
 - [3. Cloudflare Zone IDs](#3-cloudflare-zone-ids)
 - [4. Done](#4-done)
+- [5. Multiple Accounts](#5-multiple-accounts)
 
 ## 1. The Basics
 
@@ -151,4 +152,37 @@ If you have [Docker](https://www.docker.com/products/docker-desktop/) installed,
 
 ```sh
 docker compose up --build --detach
+```
+
+## 5. Multiple Accounts
+
+If you have more than one Cloudflare account you would like to update the records for, add the relevant API token to the `.env` file under a different name:
+
+```
+CLOUDFLARE_API_TOKEN=blahblahblah
+
+SOME_OTHER_ClOUDFLARE_API_TOKEN=blahblahblah2
+```
+
+You can then reference it via the "token" property on the applicable records in `config.json`
+
+```json
+{
+    "$schema": ".github/config-schema.json",
+    "dnsRecords": [
+        {
+            "zoneId": "789a6802c759a6524f83bd5fade4d7f5",
+            "recordId": "6c3ce8ce3c30fc6829c14a4571dc4eaa",
+            "name": "nachotoast.com",
+            "proxied": true
+        },
+        {
+            "zoneId": "7e745164e18972405db24181260c03eb",
+            "recordId": "856686d1eaa939866af88eb3051c100c",
+            "name": "another-value",
+            "proxied": true,
+            "token": "SOME_OTHER_CLOUDFLARE_API_TOKEN"
+        }
+    ]
+}
 ```
