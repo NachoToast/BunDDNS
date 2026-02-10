@@ -1,6 +1,6 @@
 # BunDDNS
 
-A very minimal Dynamic DNS tool to routinely update Cloudflare DNS records with my latest IP address.
+A very minimal dynamic DNS tool to routinely update Cloudflare DNS records with my latest IP address.
 
 ## Setup
 
