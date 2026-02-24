@@ -25,4 +25,4 @@ See the [setup guide](./SETUP_GUIDE.md).
   > I did originally write this as a [bash script](.github/implementation.sh), however I wanted the added monitoring functionality of Docker.
 
 - Why store variables in both `.env` and `config.json`?
-  > I use `.env` for sensitive information, since many applications have extra measures to "secure" it, such as VS Code not showing it's content in search results. However when variables start becoming more complicated than a simple key=value, I prefer to use JSON since it can be directly imported in TypeScript and I can make a schema for it.
+  > I use `.env` for sensitive information, since many applications have extra measures to "secure" it, such as VS Code not showing its contents in search results. However when variables start becoming more complicated than a simple key=value, I prefer to use JSON since it can be directly imported in TypeScript and I can make a schema for it.
