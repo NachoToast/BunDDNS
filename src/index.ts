@@ -8,7 +8,7 @@ import { setRecordContent } from './functions/setRecordContent';
 import { Color } from './types/Color';
 import type { InputDnsRecord } from './types/DnsRecord';
 
-const dnsRecords: InputDnsRecord[] = rawDnsRecords;
+const dnsRecords: InputDnsRecord[] = rawDnsRecords.filter((x: InputDnsRecord) => !x.skip);
 
 const defaultToken = getCloudflareToken();
 

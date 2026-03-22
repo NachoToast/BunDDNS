@@ -15,6 +15,8 @@ export interface InputDnsRecord extends BaseDnsRecord {
      * @default "CLOUDFLARE_API_TOKEN"
      */
     token?: string;
+
+    skip?: true;
 }
 
 export interface DnsRecord extends BaseDnsRecord {

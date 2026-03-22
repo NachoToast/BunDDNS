@@ -24,6 +24,9 @@
                     },
                     "token": {
                         "type": "string"
+                    },
+                    "skip": {
+                        "type": "boolean"
                     }
                 },
                 "additionalProperties": false,
