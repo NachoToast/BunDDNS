@@ -1,4 +1,3 @@
-import { schedule } from 'node-cron';
 import { dnsRecords as rawDnsRecords } from '../config.json';
 import { getCloudflareToken } from "./functions/getCloudflareToken";
 import { getLatestIp } from "./functions/getLatestIp";
@@ -25,7 +24,7 @@ let isDoingTheThing = false;
 
 const s = dnsRecords.length === 1 ? "" : "s";
 
-async function main(): Promise<void> {
+async function main(force: boolean): Promise<void> {
     const [oldIp, newIp] = await Promise.all([getRecordContent(dnsRecords[0]), getLatestIp()]);
 
     if (oldIp === newIp) {
@@ -34,7 +33,9 @@ async function main(): Promise<void> {
             console.log(`[${makeTimestamp()}] IP Unchanged (${oldIp})`);
         }
 
-        return;
+        if (!force) return;
+
+        console.log(`[${makeTimestamp()}] Changing Anyways (--force)`);
     }
 
     lastLoggedSameIp = false;
@@ -57,7 +58,7 @@ async function main(): Promise<void> {
     console.log(`[${makeTimestamp()}] Finished update of ${dnsRecords.length} record${s}`);
 }
 
-async function wrappedMain(): Promise<void> {
+async function wrappedMain(force: boolean = false): Promise<void> {
     if (isDoingTheThing) {
         console.log(`[${makeTimestamp()}] Previous execution was not completed in time!`);
         return;
@@ -66,7 +67,7 @@ async function wrappedMain(): Promise<void> {
     isDoingTheThing = true;
 
     try {
-        await main();
+        await main(force);
     } catch (error) {
         console.log(`[${makeTimestamp()}] Unhandled error in execution`, error);
     } finally {
@@ -74,9 +75,16 @@ async function wrappedMain(): Promise<void> {
     }
 }
 
-wrappedMain();
+await wrappedMain(process.argv.find(x => x === '--force') !== undefined);
 
+const interval = setInterval(wrappedMain, 1000 * 60 * 5); // 5 minutes
 
-schedule("*/5 * * * *", wrappedMain);
+process.on("SIGTERM", async () => {
+    console.log(`[${makeTimestamp()}] SIGTERM signal received, clearing interval`);
+
+    clearInterval(interval);
+
+    process.exit(0);
+});
 
 
